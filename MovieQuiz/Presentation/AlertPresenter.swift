@@ -26,9 +26,7 @@ final class AlertPresenter: AlertPresenterProtocol {
             message: model.message,
             preferredStyle: .alert)
         
-        
         let action = UIAlertAction(title: model.buttonText, style: .default) { _ in model.completion()
-            
         }
         
         alertController.addAction(action)

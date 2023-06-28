@@ -17,9 +17,8 @@ struct MostPopularMovie: Codable {
     let title: String
     let rating: String//в виде строки, а не числа.
     let imageURL: URL
-    
     //обновляем нашу модель данных, чтобы она предоставляла уже исправленный адрес картинки
-        
+    
     var resizedImageURL: URL {
         // создаем строку из адреса
         let urlString = imageURL.absoluteString
@@ -33,11 +32,13 @@ struct MostPopularMovie: Codable {
         
         return newURL
     }
+    
+    private enum CodingKeys: String, CodingKey {
+        //надо указать, какое поле в JSON соответствует полю в структуре
+        case title = "fullTitle"
+        case rating = "imDbRating"
+        case imageURL = "image"
+    }
 }
 
-private enum CodingKeys: String, CodingKey {
-    //надо указать, какое поле в JSON соответствует полю в структуре
-    case title = "fullTitle"
-    case rating = "imDbRating"
-    case imageURL = "image"
-}
+

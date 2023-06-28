@@ -12,8 +12,6 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak var yesButtonOutlet: UIButton!
     @IBOutlet weak var noButtonOutlet: UIButton!
     
-    
-    
     private var correctAnswers = 0
     private var currentQuestionIndex = 0
     private var numberOfRounds = 0
@@ -34,7 +32,7 @@ final class MovieQuizViewController: UIViewController {
         alertPresenter = AlertPresenter(viewController: self)
         statisticService = StatisticServiceImplementation()
         showLoadingIndicator()
-
+        
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 0
         imageView.layer.borderColor = UIColor.white.cgColor
@@ -150,16 +148,16 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.isHidden = true
         
         let alertModel = AlertModel(title: "Ошибка",
-                                   message: message,
-                                   buttonText: "Попробовать еще раз") { [weak self] in
-                guard let self = self else { return }
-                
-                self.currentQuestionIndex = 0
-                self.correctAnswers = 0
-                
-                self.questionFactory?.requestNextQuestion()
+                                    message: message,
+                                    buttonText: "Попробовать еще раз") { [weak self] in
+            guard let self = self else { return }
             
-            }
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            
+            self.questionFactory?.requestNextQuestion()
+            
+        }
         self.alertPresenter?.showAlert(alertModel)
     }
 }
@@ -183,12 +181,10 @@ extension MovieQuizViewController: QuestionFactoryDelegate {
     func didLoadDataFromServer() {
         activityIndicator.isHidden = true // скрываем индикатор загрузки
         questionFactory?.requestNextQuestion()//показать первый вопрос
-        
     }
     //пришла ошибка от сервера
     func didFailToLoadData(with error: Error) {
         showNetworkError(message: error.localizedDescription) // возьмём в качестве сообщения описание ошибки
     }
-    
 }
 
