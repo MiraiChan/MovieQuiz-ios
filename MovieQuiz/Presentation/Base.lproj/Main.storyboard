@@ -102,13 +102,18 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="iwn-cr-mGs">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="iwn-cr-mGs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BLU-Le-r4L"/>
                             <constraint firstItem="KbS-bz-CJZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Hr8-DQ-1NP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zsF-mx-ZLN" secondAttribute="trailing" constant="20" id="Jbc-Gp-VjN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="W2h-L4-w0V" secondAttribute="bottom" id="T9R-Q8-MVW"/>
+                            <constraint firstItem="iwn-cr-mGs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Yec-yL-YYo"/>
                             <constraint firstItem="W2h-L4-w0V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="cvw-CB-KQi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="W2h-L4-w0V" secondAttribute="trailing" constant="20" id="kUa-or-oJp"/>
                             <constraint firstItem="aiW-Zi-nYu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="qaM-gj-nbx"/>
@@ -117,6 +122,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="iwn-cr-mGs" id="dQE-NU-8lM"/>
                         <outlet property="counterLabel" destination="zsF-mx-ZLN" id="wT5-b7-9w6"/>
                         <outlet property="imageView" destination="2lb-Ay-TUP" id="juy-cb-pm0"/>
                         <outlet property="noButtonOutlet" destination="vgY-yc-hUb" id="Nwf-Rc-A7i"/>
