@@ -88,7 +88,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)//у типа Data есть возможность быть созданным из URL
             } catch {
-                print("Failed to load image")//важно обработать ошибку
+                print("Невозможно загрузить постер фильма")//важно обработать ошибку
             }
             
             let rating = Float(movie.rating) ?? 0// превращаем строку в число

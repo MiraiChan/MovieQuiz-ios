@@ -72,7 +72,7 @@ final class MovieQuizUITests: XCTestCase {
             sleep(2)//ждем после каждого тапа
         }
 
-        let alert = app.alerts["Game results"]//доступ к алерту
+        let alert = app.alerts["Этот раунд окончен!"]//доступ к алерту
         
         XCTAssertTrue(alert.exists)//алерт появился
         XCTAssertTrue(alert.label == "Этот раунд окончен!")//у алерта заголовок
@@ -86,7 +86,7 @@ final class MovieQuizUITests: XCTestCase {
             sleep(2)
         }
         
-        let alert = app.alerts["Game results"]
+        let alert = app.alerts["Этот раунд окончен!"]
         alert.buttons.firstMatch.tap()
         
         sleep(2)
