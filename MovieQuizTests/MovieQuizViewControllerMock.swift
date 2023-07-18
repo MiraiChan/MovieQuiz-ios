@@ -8,6 +8,10 @@ import XCTest
 @testable import MovieQuiz
 
 final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
+    func blockButtons() {}
+    
+    func unBlockButtons() {}
+    
     func show(quiz step: QuizStepViewModel) {}
     func show(quiz result: QuizResultsViewModel) {}
     func highlightImageBorder(isCorrectAnswer: Bool) {}
