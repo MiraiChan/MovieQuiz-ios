@@ -60,7 +60,7 @@ class MoviesLoaderTests: XCTestCase {
 struct StubNetworkClient: NetworkRouting {//Тестовая версия сетевого клиента, чтобы тест не использовал стандартный NetworkClient и не делал запросы в сеть.Такие реализации протоколов для тестов обычно называют стабами.
     
     enum TestError: Error { // тестовая ошибка
-    case test
+        case test
     }
     
     let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ

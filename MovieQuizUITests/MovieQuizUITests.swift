@@ -71,14 +71,14 @@ final class MovieQuizUITests: XCTestCase {
             app.buttons["No"].tap()//по любой из кнопок
             sleep(2)//ждем после каждого тапа
         }
-
+        
         let alert = app.alerts["Этот раунд окончен!"]//доступ к алерту
         
         XCTAssertTrue(alert.exists)//алерт появился
         XCTAssertTrue(alert.label == "Этот раунд окончен!")//у алерта заголовок
         XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть ещё раз")// текст на кнопке. firstMatch ищет первую кнопку на алерте, и метод нам подходит, так как кнопка всего одна.
     }
-
+    
     func testAlertDismiss() {
         sleep(2)
         for _ in 1...10 {
@@ -100,5 +100,5 @@ final class MovieQuizUITests: XCTestCase {
 }
 
 
-    
-  
+
+

@@ -16,10 +16,10 @@ struct MoviesLoader: MoviesLoading {
     // MARK: - NetworkClient - приватная переменная в загрузчике, чтобы создавать запросы к API IMDb
     
     private let networkClient: NetworkRouting
-      
-      init(networkClient: NetworkRouting = NetworkClient()) {
-          self.networkClient = networkClient
-      }
+    
+    init(networkClient: NetworkRouting = NetworkClient()) {
+        self.networkClient = networkClient
+    }
     // MARK: - URL
     private var mostPopularMoviesUrl: URL {
         // Если мы не смогли преобразовать строку в URL, то приложение упадёт с ошибкой
