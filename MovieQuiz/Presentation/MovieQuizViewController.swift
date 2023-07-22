@@ -8,9 +8,9 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak private var counterLabel: UILabel!
     @IBOutlet weak private var imageView: UIImageView!
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var yesButtonOutlet: UIButton!
-    @IBOutlet weak var noButtonOutlet: UIButton!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak private var yesButtonOutlet: UIButton!
+    @IBOutlet weak private var noButtonOutlet: UIButton!
     
     private var correctAnswers = 0
     private var numberOfRounds = 0
@@ -42,13 +42,13 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     @IBAction private func yesButton(_ sender: UIButton) {
         presenter.yesButton(sender)
-        self.blockButtons()
+        blockButtons()
         
     }
     
     @IBAction private func noButton(_ sender: UIButton) {
         presenter.noButton(sender)
-        self.blockButtons()
+        blockButtons()
         
     }
     
@@ -83,13 +83,13 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func blockButtons() {
-        self.yesButtonOutlet.isEnabled = false
-        self.noButtonOutlet.isEnabled = false
+        yesButtonOutlet.isEnabled = false
+        noButtonOutlet.isEnabled = false
     }
     
     func unBlockButtons() {
-        self.yesButtonOutlet.isEnabled = true
-        self.noButtonOutlet.isEnabled = true
+        yesButtonOutlet.isEnabled = true
+        noButtonOutlet.isEnabled = true
     }
     
     func highlightImageBorder(isCorrectAnswer: Bool) {
