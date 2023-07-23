@@ -93,6 +93,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func switchToNextQuestion() {
+        self.viewController?.hideLoadingIndicator()
         currentQuestionIndex += 1
     }
     
@@ -104,10 +105,12 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func yesButton(_ sender: UIButton) {
+        self.viewController?.showLoadingIndicator()
         didAnswer(isYes: true, sender)
     }
     
     func noButton(_ sender: UIButton) {
+        self.viewController?.showLoadingIndicator()
         didAnswer(isYes: false, sender)
     }
     
