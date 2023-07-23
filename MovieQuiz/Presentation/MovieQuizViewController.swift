@@ -18,6 +18,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     private var presenter: MovieQuizPresenter!
     
     private var alertPresenter: AlertPresenter?
+    private var alertPresenterError: AlertPresenterErrorProtocol?
     
     
     // MARK: - Lifecycle
@@ -107,11 +108,24 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         activityIndicator.isHidden = true
     }
     
+    // Show Alert Error for Data Response
+        func showImageLoadingError() {
+            hideLoadingIndicator()
+            let alert = AlertModelError(
+                title: "Ошибка загрузки изображения",
+                message: "Не удалось загрузить постер фильма",
+                buttonText: "Попробовать еще раз"
+            ) { [weak self] in
+                self?.presenter.restartGame()
+            }
+            alertPresenterError?.showImageError(alertPresenterError: alert)
+        }
+    
     func showNetworkError(message: String) {
         hideLoadingIndicator()
         
         let alert = UIAlertController(
-            title: "Ошибка",
+            title: "Ошибка сети",
             message: message,
             preferredStyle: .alert)
         

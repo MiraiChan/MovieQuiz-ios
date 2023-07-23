@@ -8,12 +8,16 @@ import XCTest
 @testable import MovieQuiz
 
 final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
+    func show(quiz result: MovieQuiz.QuizResultsViewModel) {}
+    
+    func showImageLoadingError() {}
+    
     func blockButtons() {}
     
     func unBlockButtons() {}
     
     func show(quiz step: QuizStepViewModel) {}
-    func show(quiz result: QuizResultsViewModel) {}
+    func showNew(quiz result: QuizResultsViewModel) {}
     func highlightImageBorder(isCorrectAnswer: Bool) {}
     func showLoadingIndicator() {}
     func hideLoadingIndicator() {}
@@ -27,7 +31,7 @@ final class MovieQuizPresenterTests: XCTestCase {
         
         
         let emptyData = Data()
-        let question = QuizQuestion(image: emptyData, text: "Question Text", correctAnswer: true)
+        let question = QuizQuestion(image: emptyData, text: "Question Text", correctAnswer: Answer.yes)
         let viewModel = sut.convert(model: question)
         
         XCTAssertNotNil(viewModel.image)

@@ -8,24 +8,30 @@
 import Foundation
 import UIKit
 
+enum Answer {
+    case yes
+    case not
+}
+
 protocol MovieQuizViewControllerProtocol: AnyObject {
     func show(quiz step: QuizStepViewModel)
     func show(quiz result: QuizResultsViewModel)
     
     func highlightImageBorder(isCorrectAnswer: Bool)
-    
-    func showLoadingIndicator()
-    func hideLoadingIndicator()
+    func showImageLoadingError()
     
     func showNetworkError(message: String)
     
     func blockButtons()
     
+    func showLoadingIndicator()
+    
+    func hideLoadingIndicator()
+    
     func unBlockButtons()
 }
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
-    
     private let statisticService: StatisticService!
     private var questionFactory: QuestionFactoryProtocol?
     private var viewController: MovieQuizViewControllerProtocol?
@@ -34,12 +40,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
     private var correctAnswers: Int = 0
+    private var generatedWord = "больше"
     
     init(viewController: MovieQuizViewControllerProtocol?) {
         self.viewController = viewController
         
         statisticService = StatisticServiceImplementation()
-        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self, generatedWord: generatedWord)
         questionFactory?.loadData()
         viewController?.showLoadingIndicator()
     }
@@ -68,7 +75,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             self?.viewController?.show(quiz: viewModel)
         }
     }
-    
+
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -109,7 +116,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             return
         }
         
-        let givenAnswer = isYes
+        let givenAnswer: Answer = isYes ? .yes : .not
         
         proceedWithAnswer(isCorrect: givenAnswer == currentQuestion.correctAnswer)
         
@@ -127,6 +134,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     private func proceedToNextQuestionOrResults() {
+        viewController?.unBlockButtons()
+
         if self.isLastQuestion() {
             let text = correctAnswers == self.questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
@@ -139,7 +148,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             viewController?.show(quiz: viewModel)
         } else {
             self.switchToNextQuestion()
-            viewController?.unBlockButtons()
             questionFactory?.requestNextQuestion()
         }
     }
