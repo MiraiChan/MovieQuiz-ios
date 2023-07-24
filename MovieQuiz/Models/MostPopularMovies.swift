@@ -9,7 +9,6 @@ import Foundation
 
 //компоновка в соответствии с JSON-объектом, который состоит из двух полей — "errorMessage" и "items
 struct MostPopularMovies: Codable {
-    let errorMessage: String
     let items: [MostPopularMovie]
 }
 
@@ -40,5 +39,3 @@ struct MostPopularMovie: Codable {
         case imageURL = "image"
     }
 }
-
-

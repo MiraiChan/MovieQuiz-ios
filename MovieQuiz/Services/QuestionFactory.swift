@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 final class QuestionFactory: QuestionFactoryProtocol {
     private let moviesLoader: MoviesLoading//добавим наш загрузчик фильмов как зависимость
+    private var generatedWord: String
     private weak var delegate: QuestionFactoryDelegate?
-    
+    private var viewController: MovieQuizViewControllerProtocol?
+    //private var imageLoadingDelegate: QuestionFactoryDelegate?
+    //private var showImageLoadingError: QuestionFactoryDelegate?
+    //private var presenter: MovieQuizPresenter?
     private var movies: [MostPopularMovie] = []//будем складывать туда фильмы, загруженные с сервера
     
     /*private let questions: [QuizQuestion] = [
@@ -56,19 +61,30 @@ final class QuestionFactory: QuestionFactoryProtocol {
      correctAnswer: false),
      ]*/
     
-    init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
+    init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?, generatedWord: String) {
         self.moviesLoader = moviesLoader//передаем загрузчик в момент создания QuestionFactory
+        self.generatedWord = generatedWord
         self.delegate = delegate
     }
     
     func loadData() {//будет инициировать загрузку данных
+        viewController?.showLoadingIndicator()
         moviesLoader.loadMovies { [weak self] result in
             DispatchQueue.main.async {//когда обрабатываем ответ от загрузчика фильмов надо тоже перейти в главный поток
                 guard let self = self else { return }
                 switch result {
                 case .success(let mostPopularMovies):
-                    self.movies = mostPopularMovies.items // сохраняем фильм в нашу новую переменную
-                    self.delegate?.didLoadDataFromServer() // сообщаем, что данные загрузились
+                    self.movies = mostPopularMovies.items.shuffled() // сохраняем фильм в нашу новую переменную
+                    if self.movies.isEmpty {
+                        let error = NSError(
+                            domain: "https://api.kinopoisk.dev/v1.3/movie?selectFields=name&selectFields=rating.imdb&selectFields=poster.url&page=1&limit=10",
+                            code: 0
+                        )
+                        self.delegate?.didFailToLoadData(with: error)
+                    } else {
+                        self.movies = self.movies
+                        self.delegate?.didLoadDataFromServer()
+                    }
                 case .failure(let error):
                     self.delegate?.didFailToLoadData(with: error) // сообщаем об ошибке нашему MovieQuizViewController
                 }
@@ -76,37 +92,53 @@ final class QuestionFactory: QuestionFactoryProtocol {
         }
     }
     
+    private func generatedWordComparison() -> String {
+        let wordMore = "больше"
+        let wordLess = "меньше"
+        if self.generatedWord == wordMore {
+            self.generatedWord = wordLess
+        } else {
+            self.generatedWord = wordMore
+        }
+        return self.generatedWord //?? "не определен"
+    }
+    
     func requestNextQuestion() {
         DispatchQueue.global().async { [weak self] in//запускаем код в другом потоке, чтобы не блокировать основной поток
             guard let self = self else { return }
             let index = (0..<self.movies.count).randomElement() ?? 0//выбираем произвольный элемент из массива, чтобы показать его
-            
             guard let movie = self.movies[safe: index] else { return }
-            
+            self.movies.remove(at: index)
             var imageData = Data()// по умолчанию у нас будут просто пустые данные
             
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)//у типа Data есть возможность быть созданным из URL
             } catch {
-                print("Failed to load image")//важно обработать ошибку
+                DispatchQueue.main.async { [weak self] in
+                    self?.viewController?.showImageLoadingError()
+                }
             }
             
-            let rating = Float(movie.rating) ?? 0// превращаем строку в число
+            let ratingString = String(movie.rating)
+            let random = Int.random(in: 1..<10)
             
-            let text = "Рейтинг этого фильма больше чем 7?"//создаём вопрос
-            let correctAnswer = rating > 7//определяем его корректность
+            let wordMoreOrLess = self.generatedWordComparison()
+            let text = "Рейтинг этого фильма \(wordMoreOrLess), чем \(random)?"
             
-            let question = QuizQuestion(image: imageData,//создаём модель вопроса
-                                        text: text,
-                                        correctAnswer: correctAnswer)
-            //когда загрузка и обработка данных завершена,возвращаемся в главный поток
+            let correctAnswer: Answer
+            if wordMoreOrLess == "больше" {
+                correctAnswer = Int(ratingString) ?? 0 > random ? .not : .yes
+            } else if wordMoreOrLess == "меньше" {
+                correctAnswer = Int(ratingString) ?? 0 < random ? .not : .yes
+            } else {
+                correctAnswer = .not
+            }
+            
+            let question = QuizQuestion(image: imageData, text: text, correctAnswer: correctAnswer)
+            self.delegate?.didReceiveNextQuestion(question: question)
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.delegate?.didReceiveNextQuestion(question: question)//возвращаем наш вопрос через делегат
+                self?.viewController?.hideLoadingIndicator()
             }
         }
     }
 }
-
-
-

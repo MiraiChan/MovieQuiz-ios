@@ -39,6 +39,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="1/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsF-mx-ZLN" userLabel="Index Label">
                                                 <rect key="frame" x="333.5" y="0.0" width="40.5" height="23.5"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Index"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White"/>
                                                 <nil key="highlightedColor"/>
@@ -48,6 +49,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2lb-Ay-TUP" userLabel="Preview Image">
                                         <rect key="frame" x="0.0" y="43.5" width="374" height="561"/>
                                         <color key="backgroundColor" name="YP White"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Poster"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="2lb-Ay-TUP" secondAttribute="height" multiplier="2:3" id="4E2-bC-d1b"/>
                                         </constraints>
@@ -64,6 +66,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgY-yc-hUb" userLabel="No button">
                                                 <rect key="frame" x="0.0" y="0.0" width="177" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="No"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="IxL-xr-n62"/>
                                                 </constraints>
@@ -78,12 +81,13 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="noButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J6f-UV-Hg4"/>
+                                                    <action selector="noButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lzi-qE-JM5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKW-4P-72I" userLabel="Yes button">
                                                 <rect key="frame" x="197" y="0.0" width="177" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Yes"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Да">
@@ -95,7 +99,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="yesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9by-9p-u2J"/>
+                                                    <action selector="yesButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dDB-Sn-8I8"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -125,9 +129,9 @@
                         <outlet property="activityIndicator" destination="iwn-cr-mGs" id="dQE-NU-8lM"/>
                         <outlet property="counterLabel" destination="zsF-mx-ZLN" id="wT5-b7-9w6"/>
                         <outlet property="imageView" destination="2lb-Ay-TUP" id="juy-cb-pm0"/>
-                        <outlet property="noButtonOutlet" destination="vgY-yc-hUb" id="Nwf-Rc-A7i"/>
+                        <outlet property="noButton" destination="vgY-yc-hUb" id="Nwf-Rc-A7i"/>
                         <outlet property="textLabel" destination="KbS-bz-CJZ" id="WIz-5e-hvc"/>
-                        <outlet property="yesButtonOutlet" destination="QKW-4P-72I" id="59p-1f-3Wb"/>
+                        <outlet property="yesButton" destination="QKW-4P-72I" id="59p-1f-3Wb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

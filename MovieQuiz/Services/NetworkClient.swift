@@ -6,8 +6,12 @@
 //
 
 import Foundation
-/// сетевой клиент для загрузки данных по URL
-struct NetworkClient {
+//«Cетевая маршрутизация». В реальном приложении она будет настоящим сетевым клиентом, а вот в тестах — специальной, тестовой маршрутизацией.
+protocol NetworkRouting {
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
+// сетевой клиент для загрузки данных по URL
+struct NetworkClient: NetworkRouting {
     
     //реализацию протокола Error, если произойдёт ошибка
     private enum NetworkError: Error {
