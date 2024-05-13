@@ -8,22 +8,22 @@
 import Foundation
 
 protocol StatisticService {
-    // геттер - спецификатор, работает как модификатор доступа
-    var totalAccuracy: Double { get }//средняя точность прав.отв. за все игры в %
-    var gamesCount: Int { get } //кол-во заверш.игр
-    var bestGame: GameRecord { get }//лучшая попытка
     
-    func store(correct count: Int, total amount: Int) //метод для сохранения текущего результата игры
+    var totalAccuracy: Double { get }
+    var gamesCount: Int { get }
+    var bestGame: GameRecord { get }
+    
+    func store(correct count: Int, total amount: Int)
 }
 
-final class StatisticServiceImplementation: StatisticService { //класс для ведения статистики
+final class StatisticServiceImplementation: StatisticService {
     
-    private let userDefaults = UserDefaults.standard //конст чтобы каждый раз при работе с User Defaults не обращаться к standard
-    private enum Keys: String { //ключи для всех сущностей для сохранения в User Defaults через enum, более безопасно т.к. у кейсов можно просто брать rawValue. Тем самым снижается вероятность ошибки в строковых переменных, а ключ будет легче переименовать.
+    private let userDefaults = UserDefaults.standard
+    private enum Keys: String {
         case correct, total, bestGame, gamesCount
     }
     
-    //MARK: Properties //реализовать геттеры и сеттеры для оставшихся свойств
+    //MARK: Properties
     
     private var correct: Int {
         get {
@@ -67,19 +67,19 @@ final class StatisticServiceImplementation: StatisticService { //класс дл
             return record
         }
         set {
-            guard let data = try? JSONEncoder().encode(newValue) else { //преобразуем структуру данных (GameRecord будет лежать в переменной newValue) в тип Data
+            guard let data = try? JSONEncoder().encode(newValue) else {
                 print("Невозможно сохранить результат")
                 return
             }
-            userDefaults.set(data, forKey: Keys.bestGame.rawValue) //переменную data нужно просто сохранить в User Defaults
+            userDefaults.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
     
-    //MARK: Function //реализовать функцию сохранения лучшего результата store (с проверкой на то, что новый результат лучше сохранённого в User Defaults)
+    //MARK: Function
     
     func store(correct count: Int, total amount: Int) {
-        correct += count // сохранить корректные ответы за все время
-        total += amount // сохранить количество вопросов за все время
+        correct += count
+        total += amount
         gamesCount += 1
         
         let currentGame = GameRecord(correct: count, total: amount, date: Date())
@@ -89,4 +89,3 @@ final class StatisticServiceImplementation: StatisticService { //класс дл
         }
     }
 }
-

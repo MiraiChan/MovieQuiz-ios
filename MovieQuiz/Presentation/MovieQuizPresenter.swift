@@ -52,15 +52,14 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     // MARK: - QuestionFactoryDelegate
-    //данные загружены
     func didLoadDataFromServer() {
-        viewController?.hideLoadingIndicator()// скрываем индикатор загрузки
-        questionFactory?.requestNextQuestion()//показать первый вопрос
+        viewController?.hideLoadingIndicator()
+        questionFactory?.requestNextQuestion()
     }
-    //пришла ошибка от сервера
+    
     func didFailToLoadData(with error: Error) {
         let message = error.localizedDescription
-        viewController?.showNetworkError(message: message) // возьмём в качестве сообщения описание ошибки
+        viewController?.showNetworkError(message: message)
     }
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
@@ -75,7 +74,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             self?.viewController?.show(quiz: viewModel)
         }
     }
-
+    
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -99,9 +98,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),// распаковываем картинку
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,// берём текст вопроса
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")// высчитываем номер вопроса
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
     func yesButton(_ sender: UIButton) {
@@ -138,7 +137,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     private func proceedToNextQuestionOrResults() {
         viewController?.unBlockButtons()
-
+        
         if self.isLastQuestion() {
             let text = correctAnswers == self.questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
@@ -173,4 +172,3 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         return resultMessage
     }
 }
-

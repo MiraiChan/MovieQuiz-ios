@@ -1,9 +1,15 @@
+//
+//  MovieQuizViewController.swift
+//  MovieQuiz
+//
+//  Created by Almira Khafizova on 11.06.23.
+//
+
 import UIKit
 
 final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     // MARK: - Private Properties
-    
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     @IBOutlet weak private var imageView: UIImageView!
@@ -40,22 +46,17 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     // MARK: - Actions
-    
     @IBAction private func yesButtonPressed(_ sender: UIButton) {
         presenter.yesButton(sender)
         blockButtons()
-        
     }
     
     @IBAction private func noButtonPressed(_ sender: UIButton) {
         presenter.noButton(sender)
         blockButtons()
-        
     }
     
     // MARK: - Private functions
-    
-    // приватный метод для показа результатов раунда квиза (заполняем нашу картинку, текст и счётчик данными), принимает вью модель QuizResultsViewModel и ничего не возвращает
     func show(quiz step: QuizStepViewModel) {
         imageView.layer.borderColor = UIColor.clear.cgColor
         imageView.image = step.image
@@ -76,9 +77,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
             
             self.presenter.restartGame()
         }
-        
         alert.addAction(action)
-        
         self.present(alert, animated: true, completion: nil)
         
     }
@@ -100,26 +99,25 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func showLoadingIndicator() {
-        activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
-        activityIndicator.startAnimating() // включаем анимацию
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
     }
     
     func hideLoadingIndicator() {
         activityIndicator.isHidden = true
     }
     
-    // Show Alert Error for Data Response
-        func showImageLoadingError() {
-            hideLoadingIndicator()
-            let alert = AlertModelError(
-                title: "Ошибка загрузки изображения",
-                message: "Не удалось загрузить постер фильма",
-                buttonText: "Попробовать еще раз"
-            ) { [weak self] in
-                self?.presenter.restartGame()
-            }
-            alertPresenterError?.showImageError(alertPresenterError: alert)
+    func showImageLoadingError() {
+        hideLoadingIndicator()
+        let alert = AlertModelError(
+            title: "Ошибка загрузки изображения",
+            message: "Не удалось загрузить постер фильма",
+            buttonText: "Попробовать еще раз"
+        ) { [weak self] in
+            self?.presenter.restartGame()
         }
+        alertPresenterError?.showImageError(alertPresenterError: alert)
+    }
     
     func showNetworkError(message: String) {
         hideLoadingIndicator()
@@ -135,9 +133,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
             
             self.presenter.restartGame()
         }
-        
         alert.addAction(action)
     }
 }
-
-

@@ -5,8 +5,8 @@
 //  Created by Almira Khafizova on 09.07.23.
 //
 
-import XCTest // не забывайте импортировать фреймворк для тестирования
-@testable import MovieQuiz // импортируем приложение для тестирования
+import XCTest
+@testable import MovieQuiz
 
 class MoviesLoaderTests: XCTestCase {
     func testSuccessLoading() throws {
@@ -14,29 +14,25 @@ class MoviesLoaderTests: XCTestCase {
         let stubNetworkClient = StubNetworkClient(emulateError: false)
         let loader = MoviesLoader(networkClient: stubNetworkClient)
         
-        // When  так как функция загрузки фильмов — асинхронная, нужно ожидание
+        // When
         let expectation = expectation(description: "Loading expectation")
         
         loader.loadMovies { result in
             // Then
             switch result {
             case .success(let movies):
-                // давайте проверим, что пришло, например, два фильма — ведь в тестовых данных их всего два
                 XCTAssertEqual(movies.items.count, 2)
-                // сравниваем данные с тем, что мы предполагали
                 expectation.fulfill()
             case .failure(_):
-                // мы не ожидаем, что пришла ошибка; если она появится, надо будет провалить тест
-                XCTFail("Unexpected failure") // эта функция проваливает тест
+                XCTFail("Unexpected failure")
             }
         }
-        
         waitForExpectations(timeout: 1)
     }
     
     func testFailureLoading() throws {
         // Given
-        let stubNetworkClient = StubNetworkClient(emulateError: true) // emulateError - это вымышленный метод, который не входит в стандартную библиотеку Swift. Он может быть создан разработчиком в соответствии с требованиями тестирования или отладки своего приложения.
+        let stubNetworkClient = StubNetworkClient(emulateError: true)
         let loader = MoviesLoader(networkClient: stubNetworkClient)
         
         // When
@@ -52,18 +48,17 @@ class MoviesLoaderTests: XCTestCase {
                 XCTFail("Unexpected failure")
             }
         }
-        
         waitForExpectations(timeout: 1)
     }
 }
 
-struct StubNetworkClient: NetworkRouting {//Тестовая версия сетевого клиента, чтобы тест не использовал стандартный NetworkClient и не делал запросы в сеть.Такие реализации протоколов для тестов обычно называют стабами.
+struct StubNetworkClient: NetworkRouting {
     
-    enum TestError: Error { // тестовая ошибка
+    enum TestError: Error {
         case test
     }
     
-    let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
+    let emulateError: Bool
     
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         if emulateError {
@@ -73,7 +68,7 @@ struct StubNetworkClient: NetworkRouting {//Тестовая версия сет
         }
     }
     
-    private var expectedResponse: Data {//заранее созданный тестовый ответ от сервера в формате Data, чтобы знать чего ожидать в ответе от сервера.
+    private var expectedResponse: Data {
         """
         {
            "errorMessage" : "",

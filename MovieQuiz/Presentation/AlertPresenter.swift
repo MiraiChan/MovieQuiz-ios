@@ -34,7 +34,5 @@ final class AlertPresenter: AlertPresenterProtocol {
         viewController?.present(alertController, animated: true)
         
         alertController.view?.accessibilityIdentifier = "Game results"
-        
     }
 }
-
