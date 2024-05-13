@@ -27,10 +27,10 @@ Installation and launch via Xcode. Interface elements adapt to iPhone screen res
 Minimum system version iOS 13.0.
 
 ## Links ##
-[Design Figma](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243)
+[Design Figma](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243) 
 
 [API IMDb](https://imdb-api.com/api#Top250Movies-header)
 
 [Fonts](https://code.s3.yandex.net/Mobile/iOS/Fonts/MovieQuizFonts.zip)
 ## Screencast ##
-[Watch](https://drive.google.com/drive/folders/1-FhFA8ledvc29KXfjASwEoRRFOkJ4zr5?usp=drive_link)
+[Watch](https://drive.google.com/drive/folders/1-FhFA8ledvc29KXfjASwEoRRFOkJ4zr5?usp=sharing)
