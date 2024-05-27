@@ -42,7 +42,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         imageView.layer.borderWidth = 0
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.cornerRadius = 20
-        
     }
     
     // MARK: - Actions
